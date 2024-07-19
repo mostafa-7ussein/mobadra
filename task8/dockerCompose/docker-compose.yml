@@ -28,7 +28,6 @@ services:
       - SPRING_PROFILES_ACTIVE=mysql
 volumes:
   volumedb:
-
-
   # mysql -u petclinic -p -h 127.0.0.1 -P 4004
-  # USE petclinic;
+  # USE petclinic
+  
