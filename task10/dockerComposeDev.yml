@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:latest
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --silent']
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    environment:
+      MYSQL_USER: petclinic
+      MYSQL_PASSWORD: petclinic
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: petclinic
+    volumes:
+      - mysqlV:/var/lib/mysql
+    ports:
+      - "4004:3306"
+    
+  app:
+    build:
+      context: .
+      target: dev
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/petclinic
+      SPRING_DATASOURCE_USERNAME: petclinic
+      SPRING_DATASOURCE_PASSWORD: petclinic
+      SPRING_PROFILES_ACTIVE: mysql
+    ports:
+      - "2011:8080"
+    
+volumes:
+  mysqlV:
+
+
+  # mysql -u petclinic -p -h 127.0.0.1 -P 4004
