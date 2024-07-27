@@ -12,16 +12,13 @@ services:
       retries: 3
     volumes:
       - postgresV:/var/lib/postgresql/data
-    ports:
-      - "2012:5432"
-    restart: on-failure # Restart the db service on failure
+
   
   app:
     build:
       context: .
       target: prod
-    ports:
-      - ":8080"
+
     environment:
       - POSTGRES_USER=petclinic
       - POSTGRES_PASSWORD=petclinic
@@ -32,8 +29,17 @@ services:
       update_config:
         parallelism: 2
         delay: 10s
-    restart: on-failure # Restart the app service on failure
-
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+  load_balancer:
+    image: nginx:latest
+    volumes: 
+      - /home/mostafa/spring-petclinic/conf.d:/etc/nginx/conf.d/
+    ports:
+      - 1551:80
+    depends_on:
+      - app        
 volumes:
   postgresV:
   # psql -U petclinic -h 127.0.0.1 -p 2012
