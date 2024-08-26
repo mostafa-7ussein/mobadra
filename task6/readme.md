@@ -1,4 +1,5 @@
 Java Spring Boot Application Docker Setup
+
 Overview
 This project uses a Dockerfile to containerize a Java Spring Boot application. The Dockerfile is based on the Eclipse Temurin base image and automates the build and run process for the application.
 
